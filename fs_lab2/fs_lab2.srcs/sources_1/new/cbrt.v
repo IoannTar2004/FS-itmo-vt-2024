@@ -5,7 +5,6 @@ module cbrt(
     input [7:0] a,
     input start,
     input clk,
-    input reset,
 
     output reg [2:0] result,
     output reg ready
@@ -14,7 +13,7 @@ module cbrt(
     reg [7:0] x;
     reg signed [3:0] s;
     reg [15:0] a_mul, b_mul, result_mul;
-    reg start_mul, reset_mul;
+    reg start_mul;
     wire [15:0] intermediate_result;
     wire ready_mul;
 
@@ -22,7 +21,6 @@ module cbrt(
         .a(a_mul),
         .b(b_mul),
         .clk(clk),
-        .reset(reset_mul),
         .start(start_mul),
 
         .result(intermediate_result),
@@ -39,21 +37,20 @@ module cbrt(
     always @(posedge start) begin
         x <= a;
     end
+    always @(negedge start) begin
+        state <= START;
+        s <= 6;
+        ready <= 0;
+        result <= 0;
+        start_mul <= 0;
+    end
 
     always @(posedge clk) begin
-        if (reset) begin
-            state <= START;
-            s <= 6;
-            ready <= 0;
-            result <= 0;
-            reset_mul <= 1;
-        end
-        else if (~ready && start) begin
+        if (~ready && start) begin
             if (s > -3) begin
                 case (state)
                     START: begin
                         result = result << 1;
-                        reset_mul <= 0;                       
                         a_mul <= 3;
                         b_mul <= result;
                         state <= MUL_1;
@@ -65,22 +62,22 @@ module cbrt(
                         if (ready_mul) begin
                             b_mul <= result_mul;
                             a_mul <= result + 1;
-                            reset_mul <= 1;
+                            start_mul <= 0;
                             state <= MUL_2;
                         end
                     end
 
                     MUL_2 : begin
-                        reset_mul <= 0;
-                        result_mul <= (intermediate_result + 1) << s;
+                        start_mul <= 1;
+                        result_mul <= intermediate_result;
                         if (ready_mul) begin
-                            reset_mul <= 1;
-                            start_mul <= 0;
+                            result_mul <= (result_mul + 1) << s;
                             state <= NEXT;
                         end
                     end
 
                     default: begin
+                        start_mul <= 0;
                         if (x >= result_mul) begin
                             x <= x - result_mul;
                             result <= result + 1;

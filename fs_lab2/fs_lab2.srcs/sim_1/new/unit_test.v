@@ -3,15 +3,14 @@
 
 module unit_test;
     reg [7:0] a, b;
-    reg clk, reset_i;
-    wire [2:0] result;
+    reg clk, start;
+    wire [9:0] result;
     wire ready;
-    reg start;
 
-    cbrt cbrt_1 (
+    func func_1 (
         .a(a),
+        .b(b),
         .clk(clk),
-        .reset(reset_i),
         .start(start),
 
         .result(result),
@@ -38,21 +37,23 @@ module unit_test;
     integer i, expected;
     initial begin
         clk = 0;
-        for (i = 0; i < 256; i = i + 1) begin
-            a = i;
-            reset_i = 1;
+        start = 0;
+        for (i = 1; i < 2; i = i + 1) begin
+            a = 154;
+            b = 108;
+            start = 0;
             #10;
-            reset_i = 0;
             start = 1;
             
             wait(ready);
-            start = 0;
-            expected = expected_cbrt(i);
-            $write("in: %3d | out: %d | expected: %1d", i, result, expected);
-            if (expected != result)
-                $display(" - False");
-            else
-                $display("");
+            $display("%d", result);
+            // expected = expected_cbrt(i);
+            // start = 0;
+            // $write("in: %3d | out: %d | expected: %1d", i, result, expected);
+            // if (expected != result)
+            //     $display(" - False");
+            // else
+            //     $display("");
             
             #10;
         end

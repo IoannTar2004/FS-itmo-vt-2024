@@ -3,7 +3,6 @@
 module mult(
     input [7:0] a,
     input [7:0] b,
-    input reset,
     input start,
     input clk,
 
@@ -11,9 +10,9 @@ module mult(
     output reg [15:0] result
     );
 
-    reg [2:0] ctr;
+    reg [3:0] ctr;
 
-    always @(posedge reset) begin
+    always @(negedge start) begin
         ctr <= 0;
         ready <= 0;
         result <= 0;
@@ -21,7 +20,7 @@ module mult(
 
     always @(posedge clk) begin
         if (~ready && start) begin
-            if (ctr < 7) begin
+            if (ctr < 8) begin
                 if (b[ctr])
                     result <= result + (a << ctr);
                 ctr = ctr + 1;
