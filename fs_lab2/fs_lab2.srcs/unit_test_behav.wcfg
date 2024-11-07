@@ -12,14 +12,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="112600001fs"></ZoomEndTime>
+      <ZoomEndTime time="128169942fs"></ZoomEndTime>
       <Cursor1Time time="669399000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="90"></ValueColumnWidth>
+      <ValueColumnWidth column_width="85"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="18" />
+   <WVObjectSize size="7" />
    <wvobject fp_name="/unit_test/a" type="array">
       <obj_property name="ElementShortName">a[7:0]</obj_property>
       <obj_property name="ObjectShortName">a[7:0]</obj_property>
@@ -33,8 +33,8 @@
       <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
    <wvobject fp_name="/unit_test/result" type="array">
-      <obj_property name="ElementShortName">result[8:0]</obj_property>
-      <obj_property name="ObjectShortName">result[8:0]</obj_property>
+      <obj_property name="ElementShortName">result[9:0]</obj_property>
+      <obj_property name="ObjectShortName">result[9:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/unit_test/ready" type="logic">
       <obj_property name="ElementShortName">ready</obj_property>
@@ -43,50 +43,6 @@
    <wvobject fp_name="/unit_test/start" type="logic">
       <obj_property name="ElementShortName">start</obj_property>
       <obj_property name="ObjectShortName">start</obj_property>
-   </wvobject>
-   <wvobject fp_name="/unit_test/func_1/multer1" type="array">
-      <obj_property name="ElementShortName">multer1[7:0]</obj_property>
-      <obj_property name="ObjectShortName">multer1[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/unit_test/func_1/multer2" type="array">
-      <obj_property name="ElementShortName">multer2[7:0]</obj_property>
-      <obj_property name="ObjectShortName">multer2[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/unit_test/func_1/start_mul" type="logic">
-      <obj_property name="ElementShortName">start_mul</obj_property>
-      <obj_property name="ObjectShortName">start_mul</obj_property>
-   </wvobject>
-   <wvobject fp_name="/unit_test/func_1/start_cbrt" type="logic">
-      <obj_property name="ElementShortName">start_cbrt</obj_property>
-      <obj_property name="ObjectShortName">start_cbrt</obj_property>
-   </wvobject>
-   <wvobject fp_name="/unit_test/func_1/result_mul_reg" type="array">
-      <obj_property name="ElementShortName">result_mul_reg[15:0]</obj_property>
-      <obj_property name="ObjectShortName">result_mul_reg[15:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/unit_test/func_1/result_mul" type="array">
-      <obj_property name="ElementShortName">result_mul[15:0]</obj_property>
-      <obj_property name="ObjectShortName">result_mul[15:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/unit_test/func_1/result_cbrt" type="array">
-      <obj_property name="ElementShortName">result_cbrt[2:0]</obj_property>
-      <obj_property name="ObjectShortName">result_cbrt[2:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/unit_test/func_1/ready_mul" type="logic">
-      <obj_property name="ElementShortName">ready_mul</obj_property>
-      <obj_property name="ObjectShortName">ready_mul</obj_property>
-   </wvobject>
-   <wvobject fp_name="/unit_test/func_1/ready_cbrt" type="logic">
-      <obj_property name="ElementShortName">ready_cbrt</obj_property>
-      <obj_property name="ObjectShortName">ready_cbrt</obj_property>
-   </wvobject>
-   <wvobject fp_name="/unit_test/func_1/state" type="logic">
-      <obj_property name="ElementShortName">state</obj_property>
-      <obj_property name="ObjectShortName">state</obj_property>
-   </wvobject>
-   <wvobject fp_name="/unit_test/func_1/mult_1/ctr" type="array">
-      <obj_property name="ElementShortName">ctr[2:0]</obj_property>
-      <obj_property name="ObjectShortName">ctr[2:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/unit_test/func_1/mult_1/result" type="array">
       <obj_property name="ElementShortName">result[15:0]</obj_property>

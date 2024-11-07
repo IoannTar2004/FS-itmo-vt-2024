@@ -1,6 +1,3 @@
-`timescale 1ns / 1ps
-
-
 module cbrt(
     input [7:0] a,
     input start,
