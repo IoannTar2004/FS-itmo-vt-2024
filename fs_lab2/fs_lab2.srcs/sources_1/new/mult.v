@@ -11,9 +11,7 @@ module mult(
     );
  
     reg [3:0] ctr;
-    wire bb;
     assign ready = ctr == 8;
-    assign bb = b[ctr];
 
     always @(negedge start) begin
         ctr <= 0;

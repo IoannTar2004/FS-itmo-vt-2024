@@ -73,7 +73,7 @@ module cbrt(
                         start_mul <= 1;
                         result_mul <= intermediate_result;
                         if (ready_mul) begin
-                            state <= CMP;
+                           state <= CMP;
                         end
                     end
 

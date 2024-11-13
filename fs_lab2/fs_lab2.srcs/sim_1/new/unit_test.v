@@ -52,7 +52,7 @@ module unit_test;
             start = 1;
             
             wait(ready);
-            $write("in: %3d | out: %3d | expected: %3d", i, result, expected[i]);
+            $write("a: %3d | b: %3d | out: %3d | expected: %3d", a, b, result, expected[i]);
             if (expected[i] != result)
                 $display(" - False");
             else begin
