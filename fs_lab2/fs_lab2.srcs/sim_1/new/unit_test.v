@@ -62,7 +62,7 @@ module unit_test;
                 
         end
 
-        $display("Tests %d of 15 passed", count);
+        $display("Tests %2d of 15 passed", count);
         $finish;
     end
 endmodule
