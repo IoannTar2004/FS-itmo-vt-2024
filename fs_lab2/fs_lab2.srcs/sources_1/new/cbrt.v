@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module cbrt(
     input [7:0] a,
     input start,
@@ -24,12 +26,15 @@ module cbrt(
         .ready(ready_mul)
     );
 
-    localparam START = 2'b0;
-    localparam MUL_1 = 2'b1;
-    localparam MUL_2 = 2'b10;
-    localparam NEXT = 2'b11; 
+    localparam START = 0;
+    localparam MUL_1 = 1;
+    localparam MUL_2 = 2;
+    localparam CMP = 3;
+    localparam INC = 4;
+    localparam SUB = 5;
+    localparam DEC = 6;
 
-    reg [1:0] state;
+    reg [2:0] state;
 
     always @(posedge start) begin
         x <= a;
@@ -68,17 +73,31 @@ module cbrt(
                         start_mul <= 1;
                         result_mul <= intermediate_result;
                         if (ready_mul) begin
-                            result_mul <= (result_mul + 1) << s;
-                            state <= NEXT;
+                            state <= CMP;
                         end
                     end
 
-                    default: begin
+                    CMP: begin
                         start_mul <= 0;
+                        result_mul <= (result_mul + 1) << s;
+                        state <= INC;
+                    end
+
+                    INC: begin
                         if (x >= result_mul) begin
-                            x <= x - result_mul;
                             result <= result + 1;
+                            state <= SUB;
                         end
+                        else
+                            state <= DEC;
+                    end
+
+                    SUB: begin
+                        x <= x - result_mul;
+                        state <= DEC;
+                    end
+
+                    DEC: begin
                         s <= s - 3;
                         state <= START;
                     end

@@ -1,30 +1,33 @@
+`timescale 1ns / 1ps
+
 module mult(
     input [7:0] a,
     input [7:0] b,
     input start,
     input clk,
 
-    output reg ready,
+    output ready,
     output reg [15:0] result
     );
-
+ 
     reg [3:0] ctr;
+    wire bb;
+    assign ready = ctr == 8;
+    assign bb = b[ctr];
 
     always @(negedge start) begin
         ctr <= 0;
-        ready <= 0;
         result <= 0;
     end
 
     always @(posedge clk) begin
         if (~ready && start) begin
             if (ctr < 8) begin
-                if (b[ctr])
+                if (b[ctr]) begin
                     result <= result + (a << ctr);
-                ctr = ctr + 1;
+                end
+                ctr <= ctr + 1;
             end
-            else
-                ready <= 1;
         end
     end
 

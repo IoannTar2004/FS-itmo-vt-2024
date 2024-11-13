@@ -1,5 +1,4 @@
-`timescale 10ns / 10ps
-
+`timescale 1ns / 1ps
 
 module unit_test;
     reg [7:0] a, b;
@@ -18,7 +17,7 @@ module unit_test;
     );
 
     always begin
-        #1 clk = ~clk;
+        #5 clk = ~clk;
     end
 
     reg [7:0] a_values [0:15];
@@ -49,11 +48,10 @@ module unit_test;
             a = a_values[i];
             b = b_values[i];
             start = 0;
-            #1;
+            #5;
             start = 1;
             
             wait(ready);
-            start = 0;
             $write("in: %3d | out: %3d | expected: %3d", i, result, expected[i]);
             if (expected[i] != result)
                 $display(" - False");
@@ -62,7 +60,6 @@ module unit_test;
                 count = count + 1;
             end
                 
-            #1;
         end
 
         $display("Tests %d of 15 passed", count);

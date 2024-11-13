@@ -12,40 +12,68 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="128169942fs"></ZoomEndTime>
-      <Cursor1Time time="669399000fs"></Cursor1Time>
+      <ZoomEndTime time="166871339fs"></ZoomEndTime>
+      <Cursor1Time time="546367000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="85"></ValueColumnWidth>
+      <NameColumnWidth column_width="78"></NameColumnWidth>
+      <ValueColumnWidth column_width="72"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="7" />
-   <wvobject fp_name="/unit_test/a" type="array">
+   <WVObjectSize size="14" />
+   <wvobject fp_name="/unit_test/func_1/cbrt_1/a" type="array">
       <obj_property name="ElementShortName">a[7:0]</obj_property>
       <obj_property name="ObjectShortName">a[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/unit_test/b" type="array">
-      <obj_property name="ElementShortName">b[7:0]</obj_property>
-      <obj_property name="ObjectShortName">b[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/unit_test/clk" type="logic">
-      <obj_property name="ElementShortName">clk</obj_property>
-      <obj_property name="ObjectShortName">clk</obj_property>
-   </wvobject>
-   <wvobject fp_name="/unit_test/result" type="array">
-      <obj_property name="ElementShortName">result[9:0]</obj_property>
-      <obj_property name="ObjectShortName">result[9:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/unit_test/ready" type="logic">
-      <obj_property name="ElementShortName">ready</obj_property>
-      <obj_property name="ObjectShortName">ready</obj_property>
-   </wvobject>
-   <wvobject fp_name="/unit_test/start" type="logic">
+   <wvobject fp_name="/unit_test/func_1/cbrt_1/start" type="logic">
       <obj_property name="ElementShortName">start</obj_property>
       <obj_property name="ObjectShortName">start</obj_property>
    </wvobject>
-   <wvobject fp_name="/unit_test/func_1/mult_1/result" type="array">
-      <obj_property name="ElementShortName">result[15:0]</obj_property>
-      <obj_property name="ObjectShortName">result[15:0]</obj_property>
+   <wvobject fp_name="/unit_test/func_1/cbrt_1/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/unit_test/func_1/cbrt_1/result" type="array">
+      <obj_property name="ElementShortName">result[2:0]</obj_property>
+      <obj_property name="ObjectShortName">result[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/unit_test/func_1/cbrt_1/ready" type="logic">
+      <obj_property name="ElementShortName">ready</obj_property>
+      <obj_property name="ObjectShortName">ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/unit_test/func_1/cbrt_1/x" type="array">
+      <obj_property name="ElementShortName">x[7:0]</obj_property>
+      <obj_property name="ObjectShortName">x[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/unit_test/func_1/cbrt_1/s" type="array">
+      <obj_property name="ElementShortName">s[3:0]</obj_property>
+      <obj_property name="ObjectShortName">s[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/unit_test/func_1/cbrt_1/a_mul" type="array">
+      <obj_property name="ElementShortName">a_mul[15:0]</obj_property>
+      <obj_property name="ObjectShortName">a_mul[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/unit_test/func_1/cbrt_1/b_mul" type="array">
+      <obj_property name="ElementShortName">b_mul[15:0]</obj_property>
+      <obj_property name="ObjectShortName">b_mul[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/unit_test/func_1/cbrt_1/result_mul" type="array">
+      <obj_property name="ElementShortName">result_mul[15:0]</obj_property>
+      <obj_property name="ObjectShortName">result_mul[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/unit_test/func_1/cbrt_1/start_mul" type="logic">
+      <obj_property name="ElementShortName">start_mul</obj_property>
+      <obj_property name="ObjectShortName">start_mul</obj_property>
+   </wvobject>
+   <wvobject fp_name="/unit_test/func_1/cbrt_1/intermediate_result" type="array">
+      <obj_property name="ElementShortName">intermediate_result[15:0]</obj_property>
+      <obj_property name="ObjectShortName">intermediate_result[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/unit_test/func_1/cbrt_1/ready_mul" type="logic">
+      <obj_property name="ElementShortName">ready_mul</obj_property>
+      <obj_property name="ObjectShortName">ready_mul</obj_property>
+   </wvobject>
+   <wvobject fp_name="/unit_test/func_1/cbrt_1/state" type="array">
+      <obj_property name="ElementShortName">state[1:0]</obj_property>
+      <obj_property name="ObjectShortName">state[1:0]</obj_property>
    </wvobject>
 </wave_config>

@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module func(
     input [7:0] a,
     input [7:0] b,
@@ -10,7 +12,7 @@ module func(
 
     reg [7:0] multer1, multer2;
     reg start_mul, start_cbrt;
-    reg [15:0] result_mul_reg;
+    reg [15:0] result_mul_reg1, result_mul_reg2;
 
     wire [15:0] result_mul;
     wire [2:0] result_cbrt;
@@ -35,31 +37,33 @@ module func(
         .ready(ready_cbrt)
     );
 
-    localparam ACT_0 = 0;
-    localparam ACT_1 = 1;
+    localparam START = 0;
+    localparam ACT_0 = 1;
+    localparam ACT_1 = 2;
+    localparam READY = 3;
     
-    reg state;
+    reg [1:0] state;
     
     always @(negedge start) begin
         start_mul <= 0;
         start_cbrt <= 0;
         result <= 0;
         ready <= 0;
-        state <= ACT_0;
-    end
-
-    always @(posedge start) begin
-        multer1 <= 3;
-        multer2 <= a;
+        state <= START;
     end
 
     always @(posedge clk) begin
         if (~ready && start) begin
             case (state)
+                START: begin
+                    multer1 <= 3;
+                    multer2 <= a;
+                    state <= ACT_0;
+                end
                 ACT_0: begin
                     start_mul <= 1;
                     start_cbrt <= 1;
-                    result_mul_reg <= result_mul;
+                    result_mul_reg1 <= result_mul;
                     if (ready_mul && ready_cbrt) begin
                         start_mul <= 0;
                         multer1 <= 2;
@@ -70,11 +74,16 @@ module func(
 
                 ACT_1: begin
                     start_mul <= 1;
+                    result_mul_reg2 <= result_mul;
                     if (ready_mul) begin
-                        result <= result_mul_reg + result_mul;
-                        ready <= 1;
+                        state <= READY;
                     end
                 end 
+
+                READY: begin
+                    result <= result_mul_reg1 + result_mul_reg2;
+                    ready <= 1;
+                end
             endcase
         end
     end
