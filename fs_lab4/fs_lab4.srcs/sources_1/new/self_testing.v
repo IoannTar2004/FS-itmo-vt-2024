@@ -5,13 +5,13 @@ module self_testing(
     input ready_func, start, reset, clk,
 
     output reg [7:0] crc_total,
-    output reg ready,
-    output ready_crc
+    output reg ready
 );
 
 reg [1:0] state;
 reg start_crc;
 reg [7:0] crc_reg, ctr;
+wire ready_crc;
 wire [7:0] crc;
 
 crc8 crc8_1 (
@@ -24,16 +24,18 @@ crc8 crc8_1 (
     .ready(ready_crc)
 );
 
-localparam IDLE = 0;
-localparam WAIT_FUNC = 1;
-localparam WAIT_CRC = 2;
-localparam CHECK = 3;
+localparam IDLE = 2'd0;
+localparam WAIT_FUNC = 2'd1;
+localparam WAIT_CRC = 2'd2;
+localparam CHECK = 2'd3;
 
 initial begin
-    state <= 0;
+    state <= IDLE;
+    crc_reg <= 0;
 end
 
 always @(posedge clk, posedge reset) begin
+    crc_total <= state;
     if (reset) begin
         state <= IDLE;
         crc_total <= 0;
@@ -43,7 +45,7 @@ always @(posedge clk, posedge reset) begin
         case (state)
             IDLE: begin
                 if (start) begin
-                    crc_total <= 0;
+                    // crc_total <= 100;
                     ready <= 0;
                     state <= WAIT_FUNC;
                 end
@@ -64,12 +66,13 @@ always @(posedge clk, posedge reset) begin
             end 
             CHECK: begin
                 if (ctr == 255) begin
-                    crc_total <= crc;
-                    $display(crc);
-                    $stop;
+                    crc_total <= 100;
                     ready <= 1;
+                    state <= IDLE;
+                    // $display(crc);
                 end
                 else begin 
+                    crc_total <= 50;
                     ctr <= ctr + 1;
                     state <= WAIT_FUNC;
                 end

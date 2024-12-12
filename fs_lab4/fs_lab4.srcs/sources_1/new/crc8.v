@@ -19,11 +19,11 @@ wire bit;
 
 assign bit = shift_reg[10];
 
-localparam IDLE = 0;
-localparam XOR = 1;
-localparam SHIFT = 2;
-localparam WRITE = 3;
-localparam CHECK = 4;
+localparam IDLE = 3'd0;
+localparam XOR = 3'd1;
+localparam SHIFT = 3'd2;
+localparam WRITE = 3'd3;
+localparam CHECK = 3'd4;
 
 initial begin
     state <= 0;

@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 module device_tb;
-    reg clk, test;
+    reg clk, test, start, rand;
     wire [6:0] seg;
     wire [7:0] an;
     reg [15:0] sw;
@@ -10,7 +10,9 @@ module device_tb;
         .sw(sw),
         .seg(seg),
         .an(an),
-        .test(test)
+        .test(test),
+        .start(start),
+        .rand(rand)
     );
 
     always begin
@@ -20,9 +22,12 @@ module device_tb;
     initial begin
         clk = 1;
         sw <= 771;
-        #4780;
+        #20;
         test <= 1;
-        #10;
+        #10000;
         test <= 0;
+        #300000;
+
+        $stop;
     end
 endmodule

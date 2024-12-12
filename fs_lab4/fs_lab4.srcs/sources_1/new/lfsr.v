@@ -16,11 +16,11 @@ reg [2:0] ctr, state;
 reg bit;
 wire [7:0] partial_xor;
 
-localparam START = 0;
-localparam FEEDBACK = 1;
-localparam SHIFT = 2;
-localparam WRITE = 3;
-localparam CHECK = 4;
+localparam START = 3'd0;
+localparam FEEDBACK = 3'd1;
+localparam SHIFT = 3'd2;
+localparam WRITE = 3'd3;
+localparam CHECK = 3'd4;
 
 genvar i;
 generate
