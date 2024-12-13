@@ -32,14 +32,14 @@ module cbrt(
         .ready(ready_mul)
     );
 
-    localparam IDLE = 0;
-    localparam START = 1;
-    localparam MUL_1 = 2;
-    localparam MUL_2 = 3;
-    localparam CMP = 4;
-    localparam INC = 5;
-    localparam SUB = 6;
-    localparam DEC = 7;
+    localparam IDLE = 3'd0;
+    localparam START = 3'd1;
+    localparam MUL_1 = 3'd2;
+    localparam MUL_2 = 3'd3;
+    localparam CMP = 3'd4;
+    localparam INC = 3'd5;
+    localparam SUB = 3'd6;
+    localparam DEC = 3'd7;
 
     reg [2:0] state;
 

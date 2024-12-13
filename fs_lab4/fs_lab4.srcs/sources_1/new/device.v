@@ -13,14 +13,14 @@ wire [9:0] result;
 wire ready, ready_crc, lfsr1_rd, lfsr2_rd;
 wire [7:0] lfsr1_out, lfsr2_out, a, b, crc;
 
-reg [13:0] counter;
+reg [13:0] counter, color_ctr;
 reg [2:0] numbers;
 reg [7:0] lfsr1, lfsr2;
 reg [3:0] h1, d1, u1, h2, d2, u2;
 reg state;
 reg st_func;
 
-localparam MCS_5 = 5000;
+localparam MCS_7 = 13'd7000;
 localparam SWITCH = 2'b00;
 localparam TEST = 2'b01;
 localparam LFSR1_INIT = 8'd100;
@@ -33,7 +33,7 @@ func func_1 (
     .a(a),
     .b(b),
     .reset(~reset | test),
-    .start(st_func | (state != 1 & start)),
+    .start((start & state == SWITCH) | st_func),
     .clk(clk),
     
     .result(result),
@@ -45,7 +45,6 @@ lfsr lfsr_1 (
    .reset(test),
    .init(LFSR1_INIT),
    .polynom(8'b10101001),
-   .start(0),
 
    .lfsr_out(lfsr1_out),
    .ready(lfsr1_rd)
@@ -55,14 +54,13 @@ lfsr lfsr_2 (
    .reset(test),
    .init(LFSR2_INIT),
    .polynom(8'b11010001),
-   .start(0),
 
    .lfsr_out(lfsr2_out),
    .ready(lfsr2_rd)
 );
 self_testing st_1 (
    .clk(clk),
-   .reset(reset),
+   .reset(~reset),
    .value(result),
    .ready_func(ready),
    .start(test),
@@ -82,9 +80,23 @@ initial begin
 end
 
 always @(posedge clk) begin
-    R <= 0;
-    G <= ready;
-    B <= 0;
+    color_ctr <= color_ctr + 1;
+    if (color_ctr > 1200) begin
+        R <= 0;
+        G <= state == SWITCH ? ready : ready_crc;
+        B <= 0;
+        if (color_ctr == 2400)
+            color_ctr <= 0;
+    end
+    else begin
+        R <= 0; G <= 0; B <= 0;
+    end
+    
+
+    if (lfsr1_rd)
+        lfsr1 <= lfsr1_out;
+    if (lfsr2_rd)
+        lfsr2 <= lfsr2_out;
     if (~reset) begin
         state <= SWITCH;
         an <= 8'b11111111;
@@ -94,15 +106,11 @@ always @(posedge clk) begin
     else if (test) begin
         state <= TEST;
         lfsr1 <= LFSR1_INIT;
-        lfsr2 <= LFSR2_INIT; 
+        lfsr2 <= LFSR2_INIT;
     end
     else begin
-        if (lfsr1_rd)
-            lfsr1 <= lfsr1_out;
-        if (lfsr2_rd)
-            lfsr2 <= lfsr2_out;
         counter <= counter + 1;
-        if (counter == MCS_5) begin
+        if (counter == MCS_7) begin
             counter <= 0;
             numbers <= numbers + 1;
             if (numbers == 8)
@@ -119,15 +127,14 @@ always @(posedge clk) begin
         end
         else begin
             st_func <= lfsr1_rd & lfsr2_rd & ~ready_crc;
-            u1 <= crc % 10;
-            d1 <= (crc / 10) % 10;
-            h1 <= crc / 100;
+            u1 <= ready_crc ? crc % 10 : 10;
+            d1 <= ready_crc ? (crc / 10) % 10 : 10;
+            h1 <= ready_crc ? crc / 100 : 10;
 
             u2 <= 10;
             d2 <= 10;
             h2 <= 10;
         end
-        
         case (numbers)
             0: begin
                 seg <= get_segment(u1);
@@ -156,9 +163,24 @@ always @(posedge clk) begin
             default: an <= 8'b11111111;
         endcase
     end
-    
-end
+    // else begin
+    //     if (lfsr1_rd)
+    //         lfsr1 <= lfsr1_out;
+    //     if (lfsr2_rd)
+    //         lfsr2 <= lfsr2_out;
+    //     end
+    //     else begin
+    //         st_func <= lfsr1_rd & lfsr2_rd & ~ready_crc;
+    //         u1 <= crc % 10;
+    //         d1 <= (crc / 10) % 10;
+    //         h1 <= crc / 100;
 
+    //         u2 <= 10;
+    //         d2 <= 10;
+    //         h2 <= 10;
+    //     end
+    end
+    
 function [6:0] get_segment(input [3:0] digit);
     case (digit)
         4'd0: get_segment = 7'b1000000; // 0
@@ -171,7 +193,6 @@ function [6:0] get_segment(input [3:0] digit);
         4'd7: get_segment = 7'b1111000; // 7
         4'd8: get_segment = 7'b0000000; // 8
         4'd9: get_segment = 7'b0010000; // 9
-        4'd10: get_segment = 7'b0111111;
         default: get_segment = 7'b1111111; // все сегменты выключены
     endcase
 endfunction

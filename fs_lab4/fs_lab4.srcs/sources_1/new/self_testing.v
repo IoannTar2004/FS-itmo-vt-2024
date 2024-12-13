@@ -35,7 +35,6 @@ initial begin
 end
 
 always @(posedge clk, posedge reset) begin
-    crc_total <= state;
     if (reset) begin
         state <= IDLE;
         crc_total <= 0;
@@ -45,7 +44,6 @@ always @(posedge clk, posedge reset) begin
         case (state)
             IDLE: begin
                 if (start) begin
-                    // crc_total <= 100;
                     ready <= 0;
                     state <= WAIT_FUNC;
                 end
@@ -66,13 +64,12 @@ always @(posedge clk, posedge reset) begin
             end 
             CHECK: begin
                 if (ctr == 255) begin
-                    crc_total <= 100;
+                    crc_total <= crc_reg;
                     ready <= 1;
                     state <= IDLE;
                     // $display(crc);
                 end
                 else begin 
-                    crc_total <= 50;
                     ctr <= ctr + 1;
                     state <= WAIT_FUNC;
                 end

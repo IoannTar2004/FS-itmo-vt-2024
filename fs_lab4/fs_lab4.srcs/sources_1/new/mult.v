@@ -18,8 +18,8 @@ module mult(
     reg [3:0] ctr;
     reg [7:0] a_mul, b_mul;
 
-    localparam IDLE = 0;
-    localparam WORK = 1;
+    localparam IDLE = 1'b0;
+    localparam WORK = 1'b1;
 
     reg state;
     initial begin

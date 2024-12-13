@@ -1,7 +1,6 @@
 `timescale 1ns / 1ps
 
 module lfsr(
-    input start,
     input clk,
     input reset,
     input [7:0] init,
@@ -46,7 +45,7 @@ always @(posedge clk, posedge reset) begin
                 state <= FEEDBACK;
                 ready <= 0;
                 ctr <= 0;
-            end 
+            end
             FEEDBACK: begin
                 bit <= ^partial_xor;
                 state <= SHIFT;

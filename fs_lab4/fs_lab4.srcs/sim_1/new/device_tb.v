@@ -26,7 +26,7 @@ module device_tb;
         test <= 1;
         #10000;
         test <= 0;
-        #300000;
+      #300000;
 
         $stop;
     end

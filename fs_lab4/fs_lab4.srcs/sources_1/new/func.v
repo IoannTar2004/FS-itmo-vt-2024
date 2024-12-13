@@ -45,10 +45,10 @@ module func(
         .ready(ready_cbrt)
     );
 
-    localparam IDLE = 0;
-    localparam ACT_0 = 1;
-    localparam ACT_1 = 2;
-    localparam READY = 3;
+    localparam IDLE = 2'd0;
+    localparam ACT_0 = 2'd1;
+    localparam ACT_1 = 2'd2;
+    localparam READY = 2'd3;
     
     reg [1:0] state;
     initial begin
