@@ -10,8 +10,8 @@ module device(
 );
 
 wire [9:0] result;
-wire ready, ready_crc, lfsr1_rd, lfsr2_rd;
-wire [7:0] lfsr1_out, lfsr2_out, a, b, crc;
+wire ready, ready_crc, lfsr1_rd, lfsr2_rd, mux;
+wire [7:0] lfsr1_out, lfsr2_out, a, b, crc, test_mode_ctr;
 
 reg [13:0] counter, color_ctr;
 reg [2:0] numbers;
@@ -26,8 +26,8 @@ localparam TEST = 2'b01;
 localparam LFSR1_INIT = 8'd100;
 localparam LFSR2_INIT = 8'd50;
 
-assign a = state == TEST | rand ? lfsr1 : sw[15:8];
-assign b = state == TEST | rand ? lfsr2 : sw[7:0];
+assign a = mux ? lfsr1 : sw[15:8];
+assign b = mux ? lfsr2 : sw[7:0];
 
 func func_1 (
     .a(a),
@@ -39,25 +39,38 @@ func func_1 (
     .result(result),
     .ready(ready)
 );
+bist bist_1 (
+    .clk(clk),
+    .test(test),
+    .reset(~reset),
+    .rand(rand),
 
-lfsr lfsr_1 (
-   .clk(clk),
-   .reset(test),
-   .init(LFSR1_INIT),
-   .polynom(8'b10101001),
-
-   .lfsr_out(lfsr1_out),
-   .ready(lfsr1_rd)
+    .lfsr1(lfsr1_out),
+    .lfsr2(lfsr2_out),
+    .lfsr1_rd(lfsr1_rd),
+    .lfsr2_rd(lfsr2_rd),
+    .test_mode_ctr(test_mode_ctr),
+    .mux(mux)
 );
-lfsr lfsr_2 (
-   .clk(clk),
-   .reset(test),
-   .init(LFSR2_INIT),
-   .polynom(8'b11010001),
 
-   .lfsr_out(lfsr2_out),
-   .ready(lfsr2_rd)
-);
+// lfsr lfsr_1 (
+//    .clk(clk),
+//    .reset(test),
+//    .init(LFSR1_INIT),
+//    .polynom(8'b10101001),
+
+//    .lfsr_out(lfsr1_out),
+//    .ready(lfsr1_rd)
+// );
+// lfsr lfsr_2 (
+//    .clk(clk),
+//    .reset(test),
+//    .init(LFSR2_INIT),
+//    .polynom(8'b11010001),
+
+//    .lfsr_out(lfsr2_out),
+//    .ready(lfsr2_rd)
+// );
 self_testing st_1 (
    .clk(clk),
    .reset(~reset),
@@ -131,9 +144,9 @@ always @(posedge clk) begin
             d1 <= ready_crc ? (crc / 10) % 10 : 10;
             h1 <= ready_crc ? crc / 100 : 10;
 
-            u2 <= 10;
-            d2 <= 10;
-            h2 <= 10;
+            u2 <= test_mode_ctr % 10;
+            d2 <= (test_mode_ctr / 10) % 10;
+            h2 <= test_mode_ctr / 100;
         end
         case (numbers)
             0: begin

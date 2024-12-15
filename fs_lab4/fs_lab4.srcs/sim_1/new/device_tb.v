@@ -21,12 +21,16 @@ module device_tb;
 
     initial begin
         clk = 1;
-        sw <= 771;
+        sw[15:8] <= 1;
+        sw[7:0] <= 1;
+        start <= 1;
         #20;
-        test <= 1;
-        #10000;
-        test <= 0;
-      #300000;
+        start <= 0;
+    //     #20;
+    //     test <= 1;
+    //     #10000;
+    //     test <= 0;
+      #3000;
 
         $stop;
     end
