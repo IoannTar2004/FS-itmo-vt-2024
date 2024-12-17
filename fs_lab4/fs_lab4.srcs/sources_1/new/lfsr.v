@@ -30,7 +30,7 @@ endgenerate
 
 initial begin
     state <= START;
-    shift_reg <= init;  
+    shift_reg <= init;
 end
 
 always @(posedge clk, posedge reset) begin

@@ -10,14 +10,13 @@ module device(
 );
 
 wire [9:0] result;
-wire ready, ready_crc, lfsr1_rd, lfsr2_rd, mux;
+wire ready, ready_crc, lfsr1_rd, lfsr2_rd, mux, state;
 wire [7:0] lfsr1_out, lfsr2_out, a, b, crc, test_mode_ctr;
 
 reg [13:0] counter, color_ctr;
 reg [2:0] numbers;
 reg [7:0] lfsr1, lfsr2;
 reg [3:0] h1, d1, u1, h2, d2, u2;
-reg state;
 reg st_func;
 
 localparam MCS_7 = 13'd7000;
@@ -50,27 +49,10 @@ bist bist_1 (
     .lfsr1_rd(lfsr1_rd),
     .lfsr2_rd(lfsr2_rd),
     .test_mode_ctr(test_mode_ctr),
-    .mux(mux)
+    .mux(mux),
+    .state(state)
 );
 
-// lfsr lfsr_1 (
-//    .clk(clk),
-//    .reset(test),
-//    .init(LFSR1_INIT),
-//    .polynom(8'b10101001),
-
-//    .lfsr_out(lfsr1_out),
-//    .ready(lfsr1_rd)
-// );
-// lfsr lfsr_2 (
-//    .clk(clk),
-//    .reset(test),
-//    .init(LFSR2_INIT),
-//    .polynom(8'b11010001),
-
-//    .lfsr_out(lfsr2_out),
-//    .ready(lfsr2_rd)
-// );
 self_testing st_1 (
    .clk(clk),
    .reset(~reset),
@@ -87,7 +69,6 @@ initial begin
     lfsr2 <= LFSR2_INIT;
     counter <= 0;
     numbers <= 0;
-    state <= 0;
     G <= 0;
     st_func <= 0;
 end
@@ -111,15 +92,9 @@ always @(posedge clk) begin
     if (lfsr2_rd)
         lfsr2 <= lfsr2_out;
     if (~reset) begin
-        state <= SWITCH;
         an <= 8'b11111111;
         counter <= 0;
         numbers <= 0;
-    end
-    else if (test) begin
-        state <= TEST;
-        lfsr1 <= LFSR1_INIT;
-        lfsr2 <= LFSR2_INIT;
     end
     else begin
         counter <= counter + 1;
@@ -176,23 +151,7 @@ always @(posedge clk) begin
             default: an <= 8'b11111111;
         endcase
     end
-    // else begin
-    //     if (lfsr1_rd)
-    //         lfsr1 <= lfsr1_out;
-    //     if (lfsr2_rd)
-    //         lfsr2 <= lfsr2_out;
-    //     end
-    //     else begin
-    //         st_func <= lfsr1_rd & lfsr2_rd & ~ready_crc;
-    //         u1 <= crc % 10;
-    //         d1 <= (crc / 10) % 10;
-    //         h1 <= crc / 100;
-
-    //         u2 <= 10;
-    //         d2 <= 10;
-    //         h2 <= 10;
-    //     end
-    end
+end
     
 function [6:0] get_segment(input [3:0] digit);
     case (digit)

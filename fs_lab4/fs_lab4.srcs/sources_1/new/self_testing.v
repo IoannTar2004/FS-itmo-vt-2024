@@ -67,7 +67,6 @@ always @(posedge clk, posedge reset) begin
                     crc_total <= crc_reg;
                     ready <= 1;
                     state <= IDLE;
-//                     $display(crc);
                 end
                 else begin 
                     ctr <= ctr + 1;
